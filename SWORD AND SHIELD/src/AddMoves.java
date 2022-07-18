@@ -65,6 +65,7 @@ public class AddMoves {
 					e1.printStackTrace();
 				}
 			} catch (Exception e) {
+				//any fail to connect to web will be stored in f
 				f = f + " / " + n  + " / ";
 				fx++;
 				System.out.println(fx + " fails");
@@ -73,7 +74,7 @@ public class AddMoves {
 			x++;
 			System.out.println(x);
 		}
-
+		//put all failed to connect in to a .txt
 		try (BufferedWriter out = new BufferedWriter(new FileWriter("gen1.txt"))) {
 			out.write(f);
 		} catch (IOException a) {

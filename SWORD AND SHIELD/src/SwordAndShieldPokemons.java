@@ -15,23 +15,21 @@ public class SwordAndShieldPokemons {
 	public static void main(String[] args) {
 		final String url = "https://www.eurogamer.net/pokemon-sword-shield-galar-pokedex-6017";
 		JSONArray pokemon = null;
-		int x = 0;
+		
+		//connect to url and add all pokemon in table to sqlite
 		try {
 			final Document document = Jsoup.connect(url).get();
-			//int ticker = 1;
 			pokemon = new JSONArray();
-			// go through the rows in the table of the url and add them to the json array
 
+			
 			for (Element row : document.select("table tr")) {
 				if (row.select("td:nth-of-type(1)").text().equals("")) {
 					// check if the first row is empty if so skip it
 					continue;
 				} else {
-					// get the correct box for the correct variable;
-					// pokemon id
+					
 					final String name = row.select("td:nth-of-type(2)").text();// pokemon name
 					final String t = row.select("td:nth-of-type(3)").text();// pokemon type1
-					//final String t1 = row.select("td:nth-of-type(5)").text();// pokemon type2
 					String[] ty;
 					ArrayList<String> typesArr = new ArrayList<String>();
 					if(t.contains("/")) {
@@ -42,6 +40,7 @@ public class SwordAndShieldPokemons {
 						typesArr.add(t);
 					}
 					
+					//adds pokemon into SwordAndShield table
 					String sql = "INSERT INTO SwordAndShield(Pokemon, Type1, Type2) VALUES(?,?,?)";
 					try (Connection c = DriverManager.getConnection("jdbc:sqlite:SwordAndShield.db");
 						PreparedStatement pstmt = c.prepareStatement(sql)) {
